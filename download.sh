@@ -28,4 +28,13 @@ if [ -n "$CHECKSUM" ]; then
   echo "$CHECKSUM  $DEST_PATH" | sha256sum -c -
 fi
 
-echo "Done: $DEST_PATH"
+case "$DEST_PATH" in
+  *.7z|*.rar|*.zip)
+    7z x -o"$(dirname "$DEST_PATH")" "$DEST_PATH"
+    rm "$DEST_PATH"
+    echo "Done: extracted and removed $DEST_PATH"
+    ;;
+  *)
+    echo "Done: $DEST_PATH"
+    ;;
+esac
